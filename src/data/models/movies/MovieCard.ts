@@ -8,39 +8,41 @@ const movieCardSchema = new Schema<TMovieCard>({
     type: String,
     required: true,
     trim: true,
-    // minlength: 2,
+    minlength: 2,
   },
   IMDbRating: {
     type: Number,
-    required: true
+    required: true,
+    min: 0,
+    max: 10,
   },
   Director: {
     type: String,
     required: true,
     trim: true,
-    // minlength: 2,
+    minlength: 2,
   },
   storyline: {
     type: String,
     required: true,
     trim: true,
-    // minlength: 10,
+    minlength: 10,
   },
   cast: [
     {
       type: String,
       required: true,
       trim: true,
-      // minlength: 2,
+      minlength: 2,
     }
   ],
   pictureUrl: {
     type: String,
-    // required: true,
+    required: true,
   },
   trailerUrl: {
     type: String,
-    // required: true,
+    required: true,
   },
   genre: [
     {

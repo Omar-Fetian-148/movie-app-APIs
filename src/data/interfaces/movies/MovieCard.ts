@@ -5,6 +5,7 @@ export const Genre = [
   'ANIME',
   'ADVENTURE',
   'ANIMATION',
+  'BIOGRAPHY',
   'COMEDY',
   'CRIME',
   'DOCUMENTARY',
@@ -30,7 +31,7 @@ export type MovieCardType = {
   IMDbRating: number
   cast: string[]
   pictureUrl: string | void
-  trailerUrl: string | void
+  trailerUrl: string
   createdAt: Date
   updatedAt: Date
   genre: (typeof Genre)[number][];
