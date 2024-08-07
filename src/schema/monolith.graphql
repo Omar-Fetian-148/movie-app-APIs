@@ -1,0 +1,112 @@
+scalar Date
+scalar Upload
+
+enum Language {
+  ar
+  en
+}
+
+
+enum Genre {
+  ACTION
+  ANIME
+  ADVENTURE
+  ANIMATION
+  COMEDY
+  CRIME
+  DOCUMENTARY
+  DRAMA
+  FANTASY
+  HORROR
+  MYSTERY
+  ROMANCE
+  SCI_FI
+  THRILLER
+  WESTERN
+  FAMILY
+  HISTORY
+  MUSICAL
+  BIOGRAPHY
+  WAR
+}
+
+#---------------------------------Common typeDefs-----------------------------
+
+type MutationConfirmation {
+  code: Int!
+  success: Boolean!
+  message: String!
+}
+
+type Pagination {
+  totalDocuments: Int
+  viewLimit: Int
+}
+
+#---------------------------------Movies typeDefs-----------------------------
+type MovieCard {
+  name: String
+  Director: String
+  storyline: String
+  genre: [Genre]
+  year: Int
+  IMDbRating: Float
+  cast: [String]
+  pictureUrl: String
+  trailerUrl: String
+  createdAt: Date
+  updatedAt: Date
+}
+
+type PaginatedMovieCards {
+  pagination: Pagination
+  list: [MovieCard]
+}
+type PaginatedMovieCardsResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  data: PaginatedMovieCards
+}
+
+type MovieCardResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  data: MovieCard
+}
+
+#================================================== Queries ===============================
+type Query {
+#-----------> MovieCard <-------#
+  readMovieCards(
+    page: Int
+    searchInput: String
+    year: Int
+    genre: [Genre]
+    IMDbRating: Float
+    ): PaginatedMovieCardsResponse
+
+  readOneMovieCard(
+    movieCardId: ID!
+  ): MovieCardResponse
+}
+
+
+#================================================== Mutations ===============================
+
+type Mutation {
+
+#-----------> MovieCard <-------#
+  createMovieCard (
+    name: String!
+    Director: String!
+    storyline: String!
+    genre: [Genre!]!
+    IMDbRating: Float!
+    cast: [String!]!
+    year: Int!
+    picture: Upload
+    trailerUrl: String!
+  ): MutationConfirmation
+}

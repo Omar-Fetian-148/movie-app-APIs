@@ -1,0 +1,9 @@
+.DS_Store
+.editorconfig
+.env
+.vscode
+package-lock.json
+npm-debug.log
+node_modules
+build
+dist
