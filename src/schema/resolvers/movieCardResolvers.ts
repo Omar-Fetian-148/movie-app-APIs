@@ -1,10 +1,10 @@
-// ========================= users query controllers =========================
+// ========================= Movies query controllers =========================
 import readMovieCards from "../../controllers/queries/movieCards/readMovieCards.js";
 import readOneMovieCard from "../../controllers/queries/movieCards/readOneMovieCard.js";
 
-// ======================= users mutation controllers ========================
+// ======================= Movies mutation controllers ========================
 import createMovieCard from "../../controllers/mutations/movieCards/createMovieCard.js";
-// ======================= users Subscription controllers ========================
+// ======================= Movies Subscription controllers ========================
 
 
 const movieCardResolvers = {

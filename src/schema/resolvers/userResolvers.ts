@@ -4,7 +4,7 @@ import registerUser from "../../controllers/mutations/users/registerUser.js";
 // ======================= users Subscription controllers ========================
 
 
-const movieCardResolvers = {
+const userResolvers = {
   // ============================ movieCards queries ============================
   // =========================== movieCards mutations ===========================
   Mutation: {
@@ -12,4 +12,4 @@ const movieCardResolvers = {
   }
 };
 
-export default movieCardResolvers;
+export default userResolvers;
