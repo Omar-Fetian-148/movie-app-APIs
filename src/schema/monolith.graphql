@@ -161,16 +161,6 @@ registerUser(
   sendOTP(email: String): MutationConfirmation
   checkOTP(email: String, OTP: String): MutationConfirmation
 
-  createRelation(
-    userId: ID!,
-    relationType: RelationTypes!
-  ): MutationConfirmation
-
-  deleteRelation(
-    userId: ID!,
-    relationType: RelationTypes!
-  ): MutationConfirmation
-
 #-----------> MovieCard <-------#
   createMovieCard (
     name: String!
