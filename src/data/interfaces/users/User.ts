@@ -23,6 +23,7 @@ type User = {
   OTP?: String;
   OTPExpireDate?: Date;
   otpRequests: number;
+  isAdmin: Boolean;
 
   // methods
   save: () => Promise<User>;

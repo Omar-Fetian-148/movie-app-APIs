@@ -1,7 +1,10 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, Document } from 'mongoose';
 import bcrypt from 'bcrypt';
+import { User } from "../../interfaces/index.js";
 
-const userSchema = new Schema({
+type TUser = User & Document
+
+const userSchema = new Schema<TUser>({
   username: {
     type: String,
     required: [true, 'username is required'],
