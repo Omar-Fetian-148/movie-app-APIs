@@ -30,6 +30,19 @@ enum Genre {
   WAR
 }
 
+enum UserRoles {
+  ADMIN
+  USER
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+
+
+
 #---------------------------------Common typeDefs-----------------------------
 
 type MutationConfirmation {
@@ -41,6 +54,37 @@ type MutationConfirmation {
 type Pagination {
   totalDocuments: Int
   viewLimit: Int
+}
+
+#---------------------------------Bookmarks typeDefs-----------------------------
+type Bookmark {
+  _id: ID
+  userId: ID
+  movieId: ID
+}
+
+#---------------------------------Users typeDefs-----------------------------
+type User {
+  _id: ID
+  username: String
+  email: String
+  bio: String
+  token: String
+  profilePicture: String
+  role: UserRoles
+  gender: Gender
+  isVerified: Boolean
+  lastLogin: Date
+  bookmarksCount: Int
+  createdAt: Date
+  updatedAt: Date
+}
+
+type ReadUserResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  data: User
 }
 
 #---------------------------------Movies typeDefs-----------------------------
@@ -78,6 +122,9 @@ type MovieCardResponse {
 
 #================================================== Queries ===============================
 type Query {
+#-----------> User <-------#
+  readUserProfile(userId: ID!): ReadUserResponse
+
 #-----------> MovieCard <-------#
   readMovieCards(
     page: Int
@@ -96,6 +143,33 @@ type Query {
 #================================================== Mutations ===============================
 
 type Mutation {
+#-----------> User <-------#
+registerUser(
+    username: String!
+    email: String!
+    password: String!
+    confirmPassword: String!
+    gender: Gender!
+    profilePicture: Upload
+    role: UserRoles!
+  ): MutationConfirmation
+  loginUser(
+    email: String!
+    password: String!
+  ): ReadUserResponse
+  deleteUser(userId: ID!):MutationConfirmation
+  sendOTP(email: String): MutationConfirmation
+  checkOTP(email: String, OTP: String): MutationConfirmation
+
+  createRelation(
+    userId: ID!,
+    relationType: RelationTypes!
+  ): MutationConfirmation
+
+  deleteRelation(
+    userId: ID!,
+    relationType: RelationTypes!
+  ): MutationConfirmation
 
 #-----------> MovieCard <-------#
   createMovieCard (

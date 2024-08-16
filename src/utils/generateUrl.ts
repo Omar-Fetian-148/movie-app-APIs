@@ -5,7 +5,7 @@ import { LanguageKeyType } from "../data/responseMessages/ResponseMessageType.js
 
 import { ResponseHandler,  } from './helpers.js';
 
-type FolderName = 'MoviePictures'
+type FolderName = 'MoviePictures' | 'ProfilePictures'
 
 // const MAX_FILE_SIZE = 5 * 1024 * 1024;
 export default async (
