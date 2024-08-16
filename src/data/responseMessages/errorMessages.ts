@@ -43,6 +43,83 @@ const errorMessages: ResponseMessageType = {
     ar: 'غير مصرح',
     en: 'upload Error',
   },
+  passwordNotMatch: {
+    code: 401,
+    success: false,
+    message: 'PassWord Doesn\'t Match',
+    ar: 'كلمة سر غير مطابقة',
+    en: 'PassWord Doesn\'t Match',
+  },
+  userAlreadyExists: {
+    code: 404,
+    success: false,
+    message: 'User Already Exists',
+    ar: 'المستخدم غير موجود',
+    en: 'User Already Exists',
+  },
+  invalidEmailOrPassword: {
+    code: 404,
+    success: false,
+    message: 'Invalid Email Or Password',
+    ar: 'المستخدم غير موجود',
+    en: 'Invalid Email Or Password',
+  },
+  invalidOTP: {
+    code: 400,
+    success: false,
+    message: 'Invalid OTP',
+    ar: 'المستخدم غير موجود',
+    en: 'Invalid OTP',
+  },
+  EmailIsNotVerified: {
+    code: 400,
+    success: false,
+    message: 'Email Is Not Verified',
+    ar: 'المستخدم غير موجود',
+    en: 'Email Is Not Verified',
+  },
+  errorOccurred: {
+    code: 400,
+    success: false,
+    message: 'Error Occurred',
+    ar: 'المستخدم غير موجود',
+    en: 'Error Occurred',
+  },
+  userNotFound: {
+    code: 404,
+    success: false,
+    message: 'User Not Found',
+    ar: 'المستخدم غير موجود',
+    en: 'User Not Found',
+  },
+  relationAlreadyExists: {
+    code: 404,
+    success: false,
+    message: 'Relation Already Exists',
+    ar: 'المستخدم غير موجود',
+    en: 'Relation Already Exists',
+  },
+  relationNotFound: {
+    code: 404,
+    success: false,
+    message: 'Relation Not Found',
+    ar: 'المستخدم غير موجود',
+    en: 'Relation Not Found',
+  },
+  relationNotPossible: {
+    code: 404,
+    success: false,
+    message: 'Relation Not Possible',
+    ar: 'المستخدم غير موجود',
+    en: 'Relation Not Possible',
+  },
+  checkYourInput: {
+    code: 400,
+    success: false,
+    message: 'Check Your Input',
+    ar: 'المستخدم غير موجود',
+    en: 'Check Your Input',
+  }
 }
 
 export default errorMessages

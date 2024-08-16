@@ -6,10 +6,10 @@
   "main": "./dist/src/server.js",
   "scripts": {
     "start": "npm run copy-graphql && node ./dist/src/server.js",
-    "copy-graphql": "copyfiles -u 1 \"src/**/*.graphql\" dist/src",
+    "copy-files": "copyfiles -u 1 \"src/**/*.{graphql,hbs}\" dist/src",
     "watch": "tsc -w",
-    "watch-nodemon": "nodemon -L --watch  src --ext js,graphql --exec \"npm run copy-graphql && nodemon ./dist/src/server.js\"",
-    "debug": "nodemon -L --watch src --ext js,graphql --exec \"npm run copy-graphql && nodemon --inspect ./dist/src/server.js\""
+    "watch-nodemon": "nodemon -L --watch  src --ext js,graphql --exec \"npm run copy-files && nodemon ./dist/src/server.js\"",
+    "debug": "nodemon -L --watch src --ext js,graphql --exec \"npm run copy-files && nodemon --inspect ./dist/src/server.js\""
   },
   "keywords": [],
   "author": "",
