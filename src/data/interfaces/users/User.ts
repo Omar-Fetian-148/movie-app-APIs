@@ -15,7 +15,6 @@ type User = {
   token: string | null;
   createdAt: Date;
   updatedAt: Date;
-  bookmarksCount: number;
   numberOfLogins: number;
   profilePictureUrl?: string | void;
   bio?: string;

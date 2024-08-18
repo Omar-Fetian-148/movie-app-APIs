@@ -137,6 +137,13 @@ type Query {
   readOneMovieCard(
     movieCardId: ID!
   ): MovieCardResponse
+
+  readTrendingMovies: PaginatedMovieCardsResponse
+  readRecommendedMovies: PaginatedMovieCardsResponse
+
+#-----------> Bookmarks <-------#
+  readMyMovieBookmarks: PaginatedMovieCardsResponse
+
 }
 
 
@@ -144,7 +151,7 @@ type Query {
 
 type Mutation {
 #-----------> User <-------#
-registerUser(
+  registerUser(
     username: String!
     email: String!
     password: String!
@@ -153,11 +160,13 @@ registerUser(
     profilePicture: Upload
     role: UserRoles!
   ): MutationConfirmation
+
   loginUser(
     email: String!
     password: String!
   ): ReadUserResponse
   deleteUser(userId: ID!):MutationConfirmation
+  resetPassword(userId: ID!):MutationConfirmation
   sendOTP(email: String): MutationConfirmation
   checkOTP(email: String, OTP: String): MutationConfirmation
 
@@ -173,4 +182,7 @@ registerUser(
     picture: Upload
     trailerUrl: String!
   ): MutationConfirmation
+
+#-----------> Bookmarks <-------#
+  toggleBookmarkMovies(movieCardId: ID!): MutationConfirmation
 }

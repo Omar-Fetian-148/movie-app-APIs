@@ -3,13 +3,16 @@ import merge from 'lodash.merge';
 import movieCardResolvers from "./movieCardResolvers.js";
 import userResolvers from "./userResolvers.js";
 import otherResolvers from "./otherResolvers.js";
+import bookmarkResolvers from "./bookmarkResolvers.js";
 
 
 const resolvers = merge(
   {},
   movieCardResolvers,
   userResolvers,
-  otherResolvers
+  otherResolvers,
+  bookmarkResolvers
 );
+
 
 export default resolvers;

@@ -1,5 +1,5 @@
 import { Readable } from 'stream';
-
+import { Types } from 'mongoose';
 export const Genre = [
   'ACTION',
   'ANIME',
@@ -25,6 +25,7 @@ export const Genre = [
 ] as const
 
 export type MovieCardType = {
+  _id: Types.ObjectId;
   name: string
   Director: string
   storyline: string

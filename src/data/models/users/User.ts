@@ -71,10 +71,6 @@ const userSchema = new Schema<TUser>({
     type: Number,
     default: 0,
   },
-  bookmarksCount: {
-    type: Number,
-    default: 0,
-  },
 }, { timestamps: true }
 )
 
