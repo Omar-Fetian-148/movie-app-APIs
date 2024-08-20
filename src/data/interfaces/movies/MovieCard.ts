@@ -20,14 +20,13 @@ export const Genre = [
   'FAMILY',
   'HISTORY',
   'MUSICAL',
-  'BIOGRAPHY',
   'WAR',
-] as const
+] as const;
 
 export type MovieCardType = {
   _id: Types.ObjectId;
   name: string
-  Director: string
+  director: string
   storyline: string
   IMDbRating: number
   cast: string[]

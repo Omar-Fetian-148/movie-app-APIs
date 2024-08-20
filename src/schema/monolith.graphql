@@ -90,7 +90,7 @@ type ReadUserResponse {
 #---------------------------------Movies typeDefs-----------------------------
 type MovieCard {
   name: String
-  Director: String
+  director: String
   storyline: String
   genre: [Genre]
   year: Int
@@ -138,14 +138,13 @@ type Query {
     movieCardId: ID!
   ): MovieCardResponse
 
-  readTrendingMovies: PaginatedMovieCardsResponse
+  readTrendingMovies(page: Int): PaginatedMovieCardsResponse
   readRecommendedMovies: PaginatedMovieCardsResponse
 
 #-----------> Bookmarks <-------#
   readMyMovieBookmarks: PaginatedMovieCardsResponse
 
 }
-
 
 #================================================== Mutations ===============================
 
@@ -173,7 +172,7 @@ type Mutation {
 #-----------> MovieCard <-------#
   createMovieCard (
     name: String!
-    Director: String!
+    director: String!
     storyline: String!
     genre: [Genre!]!
     IMDbRating: Float!

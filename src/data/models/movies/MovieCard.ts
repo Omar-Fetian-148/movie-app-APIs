@@ -16,7 +16,7 @@ const movieCardSchema = new Schema<TMovieCard>({
     min: 0,
     max: 10,
   },
-  Director: {
+  director: {
     type: String,
     required: true,
     trim: true,

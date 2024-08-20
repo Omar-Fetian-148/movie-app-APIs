@@ -9,16 +9,18 @@ import validateMovieCard from "../../../utils/validations/validateMovieCard.js";
 export default async (
   _: undefined,
   {
-    Director, IMDbRating, cast, genre, name, storyline, picture, trailerUrl, year
+    director, IMDbRating, cast, genre, name, storyline, picture, trailerUrl, year
   }: MovieCardInput,
-  { language }: MyContext
+  { user, language }: MyContext
 ) => {
   const responseHandler = new ResponseHandler(language);
   try {
+    if (!user) return responseHandler.generateError('unauthorized')
+    if (user.role !== 'ADMIN') return responseHandler.generateError('unauthorized')
 
     const { error } = validateMovieCard.validate(
       {
-        Director, IMDbRating, cast, genre, name, storyline, trailerUrl, year
+        director, IMDbRating, cast, genre, name, storyline, trailerUrl, year
       },
       { abortEarly: false }
     );
@@ -26,7 +28,7 @@ export default async (
     if (error) throw new Error(error.details.map((x) => x.message).join(', '));
 
     const movieCard = new MovieCard({
-      Director, IMDbRating, cast, genre, name, storyline, year, trailerUrl
+      director, IMDbRating, cast, genre, name, storyline, year, trailerUrl
     });
 
     if (picture) {

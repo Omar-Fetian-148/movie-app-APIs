@@ -13,9 +13,7 @@ type ReadMovieCardsInput = {
 }
 export default async (
   _: undefined,
-  {
-    page, IMDbRating, genre, searchInput, year
-  }: ReadMovieCardsInput,
+  { page }: { page: number },
   { user, language }: MyContext
 ) => {
   const responseHandler = new ResponseHandler(language)
@@ -26,23 +24,18 @@ export default async (
     const viewLimit = 10;
 
     const skip = (page - 1) * viewLimit;
+    let searchInput: (typeof Genre)[number]
+
+    let resultData = await SearchHistory.findOne({ userId: new Types.ObjectId(user._id) })
+      const historicalGenres = resultData?.genres
+    console.log(Array.from(historicalGenres));
 
     const matchStage = {
-      ...(searchInput && {
-        $or: [
-          { name: { $regex: searchInput, $options: 'i' } },
-        ],
-      }),
-
-      ...(IMDbRating && {
-        IMDbRating: {
-          $gte: IMDbRating,
-        }
-      }),
-
-      ...(genre && { genre }),
-      ...(year && { year }),
-
+      // ...(searchInput && {
+      //   $or: [
+      //     { name: { $regex: searchInput, $options: 'i' } },
+      //   ],
+      // })
     }
     const pipeLine = [
       {
@@ -81,29 +74,6 @@ export default async (
         viewLimit,
       },
     };
-
-    if (typeof searchInput === 'string' && searchInput.length >= 2) {
-      let historyGenres = new Set<(typeof Genre)[number]>()
-      for (const card of movieCards) {
-        card.genre.forEach(genre => historyGenres.add(genre));
-      }
-
-
-      const updateGenresObject: { [key: string]: number } = {};
-      historyGenres.forEach((genre) => {
-        updateGenresObject[`genres.${genre}`] = 1;
-      });
-
-      const searchHistory = await SearchHistory.findOneAndUpdate(
-        { userId: new Types.ObjectId(user._id) },
-        {
-          $inc: updateGenresObject
-        },
-        { upsert: true, new: true }
-      );
-
-      await searchHistory.save();
-    }
 
     return responseHandler.mutationSuccessResponse('successfulOperation', data)
 
