@@ -1,16 +1,12 @@
 import { GraphQLError } from 'graphql'
-import { ResponseHandler } from '../../../utils/helpers.js'
+import { ResponseHandler, getTopGenres } from '../../../utils/helpers.js'
 import { MyContext } from '../../../utils/auth.js'
-import { MovieCard, SearchHistory } from "../../../data/models/index.js";
+import { MovieCard, SearchHistory, Bookmark } from "../../../data/models/index.js";
 import { Genre, MovieCardType } from "../../../data/interfaces/index.js";
 import { Types } from "mongoose";
-type ReadMovieCardsInput = {
-  page?: number
-  searchInput?: string
-  year?: number
-  genre?: (typeof Genre)[number]
-  IMDbRating?: number
-}
+
+type GenreType = (typeof Genre)[number]
+
 export default async (
   _: undefined,
   { page }: { page: number },
@@ -18,25 +14,68 @@ export default async (
 ) => {
   const responseHandler = new ResponseHandler(language)
   try {
+    if (!user) return responseHandler.generateError('unauthorized')
 
     if (!page || page < 0) page = 1
 
     const viewLimit = 10;
 
     const skip = (page - 1) * viewLimit;
-    let searchInput: (typeof Genre)[number]
 
-    let resultData = await SearchHistory.findOne({ userId: new Types.ObjectId(user._id) })
-      const historicalGenres = resultData?.genres
-    console.log(Array.from(historicalGenres));
+    const resultData = await SearchHistory.findOne({ userId: new Types.ObjectId(user._id) }).lean() //.lean() to convert it to Js object
+    let historicalGenres = resultData?.genres
+    const getTop5Genres = getTopGenres(historicalGenres, 5)
+
+    const bookmarkedGenresPipeline = [
+      {
+        $lookup: {
+          from: 'moviecards',
+          localField: 'movieCardId',
+          foreignField: '_id',
+          as: 'result'
+        }
+      },
+      {
+        $unwind: {
+          path: '$result',
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        $replaceRoot: { newRoot: "$result" }
+      },
+      {
+        $project: { genre: 1 }  // Keep only the `tags` field
+      },
+      {
+        $unwind: "$genre"  // Deconstruct the `tags` array
+      },
+      {
+        $group: {
+          _id: null,
+          concatenatedTags: { $push: "$genre" }  // Collect all tags into an array
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          concatenatedTags: 1
+        }
+      }
+    ]
+
+    const userBookmarksResult = await Bookmark.aggregate(bookmarkedGenresPipeline)
+    const userBookmarks: GenreType = userBookmarksResult[0]?.concatenatedTags ? userBookmarksResult[0]?.concatenatedTags : []
+
+    const concatenatedGenres = [...getTop5Genres, ...userBookmarks] as GenreType[]
+    let userFavGenres = [...new Set(concatenatedGenres)];
+
+    if (userFavGenres.length === 0) userFavGenres = ['ACTION', 'DRAMA']
 
     const matchStage = {
-      // ...(searchInput && {
-      //   $or: [
-      //     { name: { $regex: searchInput, $options: 'i' } },
-      //   ],
-      // })
+      genre: { $in: userFavGenres }
     }
+
     const pipeLine = [
       {
         $facet: {

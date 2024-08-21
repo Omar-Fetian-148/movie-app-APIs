@@ -4,6 +4,7 @@ import { Readable } from 'stream';
 import successMessages from '../data/responseMessages/successMessages.js';
 import errorMessages from '../data/responseMessages/errorMessages.js';
 import { LanguageKeyType, ResponseMessageKeyType } from "../data/responseMessages/ResponseMessageType.js";
+import { Genre } from "../data/interfaces/index.js";
 
 export type MutationFailResponseType = {
   code: number;
@@ -29,7 +30,7 @@ export type ErrorMessageResponseType = {
 export class ResponseHandler {
   constructor(
     private language: LanguageKeyType = 'en'
-  ) {}
+  ) { }
 
   public mutationFailResponse(error: GraphQLError): MutationFailResponseType {
     return {
@@ -56,7 +57,7 @@ export class ResponseHandler {
         en: 'Key Not Found',
       };
     }
-    
+
     return {
       code: messageObj?.code as number,
       success: messageObj?.success as boolean,
@@ -76,7 +77,7 @@ export class ResponseHandler {
         en: 'Key Not Found',
       };
     }
-    
+
     throw new GraphQLError(messageObj.en, {
       extensions: {
         code: messageObj.code,
@@ -95,6 +96,16 @@ export function generateOTP(limit: number) {
     OTP += digits[Math.floor(Math.random() * 10)];
   }
   return OTP.toString()
+}
+
+type GenreType = (typeof Genre)[number]
+
+export function getTopGenres(historicalGenres: { [key: string]: number } = {}, numberOfGenres: number): GenreType[] {
+  const genresArray = Array.from(historicalGenres ? Object.entries(historicalGenres) : []) as [GenreType, number][];
+  genresArray.sort((a, b) => b[1] - a[1]);
+  const top5Genres = genresArray.slice(0, numberOfGenres);
+  const genreTags = top5Genres.map(genre => genre[0]);
+  return genreTags;
 }
 
 export async function calculateFileSize(stream: Readable) {

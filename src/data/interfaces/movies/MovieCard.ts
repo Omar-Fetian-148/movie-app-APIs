@@ -21,6 +21,7 @@ export const Genre = [
   'HISTORY',
   'MUSICAL',
   'WAR',
+  'SCI_FI',
 ] as const;
 
 export type MovieCardType = {

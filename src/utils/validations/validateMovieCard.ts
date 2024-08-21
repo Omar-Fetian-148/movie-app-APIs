@@ -5,7 +5,7 @@ import { Genre } from '../../data/interfaces/index.js';
 // Define the MovieCardInput schema
 const movieCardInputSchema = Joi.object({
   name: Joi.string().required(),
-  Director: Joi.string().required(),
+  director: Joi.string().required(),
   storyline: Joi.string().required(),
   IMDbRating: Joi.number().min(0).max(10).required(),
   cast: Joi.array().items(Joi.string()).required(),
